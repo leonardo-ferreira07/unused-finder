@@ -21,7 +21,51 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
+    
+    
+    // MARK: - Actions
+    
+    @IBAction func chooseTapped(_ sender: NSButton) {
+        
+        guard let window = view.window else { return }
+        
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.allowsMultipleSelection = false
+        
+        panel.beginSheetModal(for: window) { (result) in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+//                self.selectedFolder = panel.urls[0]
+                print(panel.urls[0])
+                print(self.contentsOf(folder: panel.urls[0]))
+            }
+        }
+        
+    }
 
 
 }
 
+
+// MARK: - File manager
+
+extension ViewController {
+    
+    func contentsOf(folder: URL) -> [URL] {
+
+        let fileManager = FileManager.default
+
+        do {
+            let contents = try fileManager.contentsOfDirectory(atPath: folder.path)
+            
+            let urls = contents.map {
+                return folder.appendingPathComponent($0)
+            }
+            return urls
+        } catch {
+            return []
+        }
+    }
+    
+}
