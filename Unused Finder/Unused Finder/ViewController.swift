@@ -10,6 +10,9 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+    var loadUrlFile: URL!
+    var swiftUrls: [URL]! = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,13 +39,24 @@ class ViewController: NSViewController {
         
         panel.beginSheetModal(for: window) { (result) in
             if result.rawValue == NSFileHandlingPanelOKButton {
-//                self.selectedFolder = panel.urls[0]
-                print(panel.urls[0])
-                print(self.contentsOf(folder: panel.urls[0]))
+                self.loadUrlFile = panel.urls[0]
+//                print(self.loadUrlFile)
             }
         }
         
     }
+    
+    @IBAction func findTapped(_ sender: NSButton) {
+        
+        if loadUrlFile != nil {
+            swiftUrls = []
+            findAllFiles(with: loadUrlFile)
+            print(swiftUrls)
+            print(swiftUrls.count)
+        }
+        
+    }
+    
 
 
 }
@@ -59,13 +73,40 @@ extension ViewController {
         do {
             let contents = try fileManager.contentsOfDirectory(atPath: folder.path)
             
-            let urls = contents.map {
-                return folder.appendingPathComponent($0)
-            }
-            return urls
+            let directoryContents = try fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil, options: [])
+            print(directoryContents)
+            
+            
+//            let urls = contents.map {
+//                return folder.appendingPathComponent($0)
+//            }
+            return directoryContents
         } catch {
             return []
         }
     }
+    
+    
+    func findAllFiles(with url: URL) {
+        
+        var paths = self.contentsOf(folder: url).enumerated().reversed()
+        
+        for obj in paths {
+            if !obj.element.absoluteString.contains(".") {
+                // call again
+                self.findAllFiles(with: obj.element)
+            } else if obj.element.absoluteString.contains("Pods") {
+                paths.remove(at: obj.offset)
+            } else {
+                if obj.element.absoluteString.contains(".swift") {
+                    swiftUrls.append(obj.element)
+                }
+                paths.remove(at: obj.offset)
+            }
+            
+        }
+        
+    }
+    
     
 }

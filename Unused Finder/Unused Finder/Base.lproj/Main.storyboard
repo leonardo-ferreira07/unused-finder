@@ -712,6 +712,9 @@
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="anw-k8-AoF">
                                 <rect key="frame" x="14" y="222" width="87" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="75" id="BP1-ax-VwA"/>
+                                </constraints>
                                 <buttonCell key="cell" type="push" title="Choose" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SI5-zk-s8j">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -720,9 +723,25 @@
                                     <action selector="chooseTapped:" target="XfG-lQ-9wD" id="uRH-hb-4za"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yml-Bs-iOH">
+                                <rect key="frame" x="14" y="171" width="87" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="75" id="32J-kO-rA8"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Find" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gC2-dN-MVJ">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="findTapped:" target="XfG-lQ-9wD" id="Oi2-jM-pls"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="yml-Bs-iOH" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="1Xa-hD-3eI"/>
+                            <constraint firstItem="yml-Bs-iOH" firstAttribute="top" secondItem="anw-k8-AoF" secondAttribute="bottom" constant="30" id="3he-wo-7kL"/>
                             <constraint firstItem="anw-k8-AoF" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="7QQ-sq-Iy6"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yml-Bs-iOH" secondAttribute="trailing" constant="385" id="Nfc-KH-w6i"/>
                             <constraint firstItem="anw-k8-AoF" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="cbc-OU-jTw"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="anw-k8-AoF" secondAttribute="trailing" constant="20" symbolic="YES" id="grE-73-Ccn"/>
                         </constraints>
