@@ -17,6 +17,10 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let l = LOTAnimationView(name: "progress_bar")
+        l.loopAnimation = true
+        
+        
         // Do any additional setup after loading the view.
     }
 
