@@ -54,7 +54,14 @@ class ViewController: NSViewController {
                 self.findAllFiles(with: self.loadUrlFile)
                 print(self.swiftUrls)
                 print(self.swiftUrls.count)
-                
+                for url in self.swiftUrls {
+                    do {
+                        let text = try NSString(contentsOf: url, encoding: String.Encoding.utf8.rawValue)
+                        print(text)
+                    } catch let errOpening as NSError {
+                        print("Error! ", errOpening)
+                    }
+                }
             }
         }
         
