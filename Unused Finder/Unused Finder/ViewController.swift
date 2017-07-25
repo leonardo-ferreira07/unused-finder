@@ -12,6 +12,7 @@ class ViewController: NSViewController {
 
     var loadUrlFile: URL!
     var swiftUrls: [URL]! = []
+    var ibUrls: [URL]! = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,10 +52,28 @@ class ViewController: NSViewController {
         DispatchQueue.global(qos: .background).async {
             if self.loadUrlFile != nil {
                 self.swiftUrls = []
+                self.ibUrls = []
+                
                 self.findAllFiles(with: self.loadUrlFile)
+                
+                // print swift code files
                 print(self.swiftUrls)
                 print(self.swiftUrls.count)
+                
                 for url in self.swiftUrls {
+                    do {
+                        let text = try NSString(contentsOf: url, encoding: String.Encoding.utf8.rawValue)
+                        print(text)
+                    } catch let errOpening as NSError {
+                        print("Error! ", errOpening)
+                    }
+                }
+                
+                // print interface builder files
+                print(self.ibUrls)
+                print(self.ibUrls.count)
+                
+                for url in self.ibUrls {
                     do {
                         let text = try NSString(contentsOf: url, encoding: String.Encoding.utf8.rawValue)
                         print(text)
@@ -102,7 +121,7 @@ extension ViewController {
         var paths = self.contentsOf(folder: url).enumerated().reversed()
         
         for obj in paths {
-            if obj.element.pathExtension == "" {
+            if obj.element.pathExtension == "" || obj.element.pathExtension == "lproj" {
                 // call again, because it found a folder
                 self.findAllFiles(with: obj.element)
             } else if obj.element.absoluteString.contains("Pods") {
@@ -110,6 +129,9 @@ extension ViewController {
             } else {
                 if obj.element.pathExtension == "swift" {
                     swiftUrls.append(obj.element)
+                } else if obj.element.pathExtension == "xib" || obj.element.pathExtension == "storyboard" {
+                    // search for interface builder files
+                    ibUrls.append(obj.element)
                 }
                 paths.remove(at: obj.offset)
             }
