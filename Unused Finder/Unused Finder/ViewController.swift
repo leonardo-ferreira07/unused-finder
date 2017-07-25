@@ -48,11 +48,14 @@ class ViewController: NSViewController {
     
     @IBAction func findTapped(_ sender: NSButton) {
         
-        if loadUrlFile != nil {
-            swiftUrls = []
-            findAllFiles(with: loadUrlFile)
-            print(swiftUrls)
-            print(swiftUrls.count)
+        DispatchQueue.global(qos: .background).async {
+            if self.loadUrlFile != nil {
+                self.swiftUrls = []
+                self.findAllFiles(with: self.loadUrlFile)
+                print(self.swiftUrls)
+                print(self.swiftUrls.count)
+                
+            }
         }
         
     }
