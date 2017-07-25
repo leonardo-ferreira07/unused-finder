@@ -102,13 +102,13 @@ extension ViewController {
         var paths = self.contentsOf(folder: url).enumerated().reversed()
         
         for obj in paths {
-            if !obj.element.absoluteString.contains(".") {
-                // call again
+            if obj.element.pathExtension == "" {
+                // call again, because it found a folder
                 self.findAllFiles(with: obj.element)
             } else if obj.element.absoluteString.contains("Pods") {
                 paths.remove(at: obj.offset)
             } else {
-                if obj.element.absoluteString.contains(".swift") {
+                if obj.element.pathExtension == "swift" {
                     swiftUrls.append(obj.element)
                 }
                 paths.remove(at: obj.offset)
