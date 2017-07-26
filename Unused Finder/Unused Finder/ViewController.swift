@@ -9,19 +9,22 @@
 import Cocoa
 
 class ViewController: NSViewController {
+    
+    @IBOutlet weak var findButton: NSButton!
 
     var loadUrlFile: URL!
     var swiftUrls: [URL]! = []
     var ibUrls: [URL]! = []
     
+    let animationView = LOTAnimationView(name: "progress_bar")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let l = LOTAnimationView(name: "progress_bar")
-        l.loopAnimation = true
         
+        animationView.loopAnimation = true
+        animationView.frame = self.view.frame
         
-        // Do any additional setup after loading the view.
     }
 
     override var representedObject: Any? {
@@ -52,9 +55,13 @@ class ViewController: NSViewController {
     }
     
     @IBAction func findTapped(_ sender: NSButton) {
+        if self.loadUrlFile != nil {
+            findButton.isEnabled = false
+            view.addSubview(animationView)
+            animationView.play()
         
-        DispatchQueue.global(qos: .background).async {
-            if self.loadUrlFile != nil {
+        
+            DispatchQueue.global(qos: .background).async {
                 self.swiftUrls = []
                 self.ibUrls = []
                 
@@ -84,6 +91,13 @@ class ViewController: NSViewController {
                     } catch let errOpening as NSError {
                         print("Error! ", errOpening)
                     }
+                }
+                
+                // back to main thread and stop the animation
+                DispatchQueue.main.async {
+                    self.animationView.pause()
+                    self.animationView.removeFromSuperview()
+                    self.findButton.isEnabled = true
                 }
             }
         }
