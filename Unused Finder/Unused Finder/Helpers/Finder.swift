@@ -8,12 +8,17 @@
 
 import Foundation
 
+struct Found {
+    var swiftUrls: [URL]! = []
+    var ibUrls: [URL]! = []
+}
+
 class Finder: NSObject {
     
     private var swiftUrls: [URL]! = []
     private var ibUrls: [URL]! = []
     
-    func find(with url: URL, completion:@escaping ([URL], [URL]) -> Void) {
+    func find(with url: URL, completion:@escaping (Found) -> Void) {
         DispatchQueue.global(qos: .background).async {
             self.swiftUrls = []
             self.ibUrls = []
@@ -48,7 +53,7 @@ class Finder: NSObject {
             
             // back to main thread and stop the animation
             DispatchQueue.main.async {
-                completion(self.swiftUrls, self.ibUrls)
+                completion(Found(swiftUrls: self.swiftUrls, ibUrls: self.ibUrls))
             }
         }
         

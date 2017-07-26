@@ -56,11 +56,15 @@ class ViewController: NSViewController {
             view.addSubview(animationView)
             animationView.play()
             
-            Finder().find(with: self.loadUrlFile, completion: { (swiftUrls, ibUrls) in
+            Finder().find(with: self.loadUrlFile, completion: { (foundObject) in
+                print(foundObject.swiftUrls.count)
+                print(foundObject.ibUrls.count)
+                
                 self.animationView.pause()
                 self.animationView.removeFromSuperview()
                 self.findButton.isEnabled = true
             })
+            
         }
     }
     
