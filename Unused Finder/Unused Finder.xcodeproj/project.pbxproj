@@ -12,6 +12,7 @@
 		A75A59EE1F261D76000C192A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A75A59ED1F261D76000C192A /* Assets.xcassets */; };
 		A75A59F11F261D76000C192A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75A59EF1F261D76000C192A /* Main.storyboard */; };
 		A75A59FD1F261D76000C192A /* Unused_FinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A59FC1F261D76000C192A /* Unused_FinderTests.swift */; };
+		A78B147A1F28D01E00BC4686 /* Finder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78B14791F28D01E00BC4686 /* Finder.swift */; };
 		A7933C0F1F27A08B00192897 /* LOTAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7933C011F279F0700192897 /* LOTAnimationView.m */; };
 		A7933C101F27A0D400192897 /* LOTAnimatableLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A7933BAB1F279F0700192897 /* LOTAnimatableLayer.m */; };
 		A7933C111F27A0D400192897 /* LOTCompositionLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A7933BAD1F279F0700192897 /* LOTCompositionLayer.m */; };
@@ -76,6 +77,7 @@
 		A75A59F81F261D76000C192A /* Unused FinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unused FinderTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A75A59FC1F261D76000C192A /* Unused_FinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unused_FinderTests.swift; sourceTree = "<group>"; };
 		A75A59FE1F261D76000C192A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A78B14791F28D01E00BC4686 /* Finder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Finder.swift; sourceTree = "<group>"; };
 		A7933BA61F279F0700192897 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		A7933BA81F279F0700192897 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		A7933BAA1F279F0700192897 /* LOTAnimatableLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LOTAnimatableLayer.h; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 		A75A59E81F261D76000C192A /* Unused Finder */ = {
 			isa = PBXGroup;
 			children = (
+				A78B14781F28CFEE00BC4686 /* Helpers */,
 				A7933C371F27A11D00192897 /* Animation */,
 				A75A59E91F261D76000C192A /* AppDelegate.swift */,
 				A75A59EB1F261D76000C192A /* ViewController.swift */,
@@ -227,6 +230,14 @@
 				A75A59FE1F261D76000C192A /* Info.plist */,
 			);
 			path = "Unused FinderTests";
+			sourceTree = "<group>";
+		};
+		A78B14781F28CFEE00BC4686 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				A78B14791F28D01E00BC4686 /* Finder.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		A7933BA41F279F0700192897 /* lottie-ios */ = {
@@ -519,6 +530,7 @@
 				A7933C101F27A0D400192897 /* LOTAnimatableLayer.m in Sources */,
 				A7933C111F27A0D400192897 /* LOTCompositionLayer.m in Sources */,
 				A7933C121F27A0D400192897 /* LOTEllipseShapeLayer.m in Sources */,
+				A78B147A1F28D01E00BC4686 /* Finder.swift in Sources */,
 				A7933C131F27A0D400192897 /* LOTGroupLayerView.m in Sources */,
 				A7933C141F27A0D400192897 /* LOTLayerView.m in Sources */,
 				A7933C151F27A0D400192897 /* LOTMaskLayer.m in Sources */,
