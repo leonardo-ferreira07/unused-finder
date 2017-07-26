@@ -31,8 +31,23 @@ class Finder: NSObject {
             
             for url in self.swiftUrls {
                 do {
-                    let text = try NSString(contentsOf: url, encoding: String.Encoding.utf8.rawValue)
-                    print(text)
+                    let text = try String(contentsOf: url, encoding: String.Encoding.utf8)
+                    if let text = text.slice(from: "struct", to: "{") {
+                        if let filtered = text.slice(from: " ", to: ":") {
+                            print(filtered.replacingOccurrences(of: " ", with: ""))
+                        } else {
+                            print(text.replacingOccurrences(of: " ", with: ""))
+                        }
+                    } else if let text = text.slice(from: "class", to: "{") {
+                        if !text.contains("(") {
+                            if let filtered = text.slice(from: " ", to: ":") {
+                                print(filtered.replacingOccurrences(of: " ", with: ""))
+                            } else {
+                                print(text.replacingOccurrences(of: " ", with: ""))
+                            }
+                        }
+                    }
+//                    print(text)
                 } catch let errOpening as NSError {
                     print("Error! ", errOpening)
                 }
@@ -44,8 +59,8 @@ class Finder: NSObject {
             
             for url in self.ibUrls {
                 do {
-                    let text = try NSString(contentsOf: url, encoding: String.Encoding.utf8.rawValue)
-                    print(text)
+                    let text = try String(contentsOf: url, encoding: String.Encoding.utf8)
+//                    print(text)
                 } catch let errOpening as NSError {
                     print("Error! ", errOpening)
                 }

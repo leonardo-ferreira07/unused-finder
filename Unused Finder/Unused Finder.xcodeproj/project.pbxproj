@@ -54,6 +54,7 @@
 		A7933C351F27A0D400192897 /* LOTShapeTrimPath.m in Sources */ = {isa = PBXBuildFile; fileRef = A7933BFE1F279F0700192897 /* LOTShapeTrimPath.m */; };
 		A7933C361F27A0D400192897 /* LOTAnimationTransitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7933C001F279F0700192897 /* LOTAnimationTransitionController.m */; };
 		A7933C391F27A19400192897 /* progress_bar.json in Resources */ = {isa = PBXBuildFile; fileRef = A7933C381F27A13000192897 /* progress_bar.json */; };
+		A79E405F1F28DA7800996043 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E405E1F28DA7800996043 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,6 +170,7 @@
 		A7933C071F279F0700192897 /* Lottie.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lottie.h; sourceTree = "<group>"; };
 		A7933C081F279F8400192897 /* Unused Finder-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Unused Finder-Bridging-Header.h"; sourceTree = "<group>"; };
 		A7933C381F27A13000192897 /* progress_bar.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = progress_bar.json; sourceTree = "<group>"; };
+		A79E405E1F28DA7800996043 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 		A75A59E81F261D76000C192A /* Unused Finder */ = {
 			isa = PBXGroup;
 			children = (
+				A79E405D1F28DA5F00996043 /* Extensions */,
 				A78B14781F28CFEE00BC4686 /* Helpers */,
 				A7933C371F27A11D00192897 /* Animation */,
 				A75A59E91F261D76000C192A /* AppDelegate.swift */,
@@ -425,6 +428,14 @@
 			path = Animation;
 			sourceTree = "<group>";
 		};
+		A79E405D1F28DA5F00996043 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A79E405E1F28DA7800996043 /* Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -558,6 +569,7 @@
 				A7933C2B1F27A0D400192897 /* LOTLayer.m in Sources */,
 				A7933C2C1F27A0D400192897 /* LOTLayerGroup.m in Sources */,
 				A7933C2D1F27A0D400192897 /* LOTMask.m in Sources */,
+				A79E405F1F28DA7800996043 /* Extensions.swift in Sources */,
 				A7933C2E1F27A0D400192897 /* LOTShapeCircle.m in Sources */,
 				A7933C2F1F27A0D400192897 /* LOTShapeFill.m in Sources */,
 				A7933C301F27A0D400192897 /* LOTShapeGroup.m in Sources */,
