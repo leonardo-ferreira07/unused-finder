@@ -32,16 +32,22 @@ class Finder: NSObject {
             for url in self.swiftUrls {
                 do {
                     let text = try String(contentsOf: url, encoding: String.Encoding.utf8)
-                    if let text = text.slice(from: "struct", to: "{") {
-                        if let filtered = text.slice(from: " ", to: ":") {
-                            print(filtered.replacingOccurrences(of: " ", with: ""))
-                        } else {
-                            print(text.replacingOccurrences(of: " ", with: ""))
-                        }
-                    } else if let text = text.slice(from: "class", to: "{") {
-                        if !text.contains("(") {
+                    if let text = text.slice(from: "struct ", to: "{") {
+                        if !text.contains("(") && !text.contains("@") && !text.contains(" var ") && !text.contains("//") {
                             if let filtered = text.slice(from: " ", to: ":") {
                                 print(filtered.replacingOccurrences(of: " ", with: ""))
+                            } else if text.components(separatedBy: ":").count > 0 {
+                                print(text.components(separatedBy: ":")[0].replacingOccurrences(of: " ", with: ""))
+                            } else {
+                                print(text.replacingOccurrences(of: " ", with: ""))
+                            }
+                        }
+                    } else if let text = text.slice(from: "class ", to: "{") {
+                        if !text.contains("(") && !text.contains("@") && !text.contains(" var ") && !text.contains("//") {
+                            if let filtered = text.slice(from: " ", to: ":") {
+                                print(filtered.replacingOccurrences(of: " ", with: ""))
+                            } else if text.components(separatedBy: ":").count > 0 {
+                                print(text.components(separatedBy: ":")[0].replacingOccurrences(of: " ", with: ""))
                             } else {
                                 print(text.replacingOccurrences(of: " ", with: ""))
                             }
