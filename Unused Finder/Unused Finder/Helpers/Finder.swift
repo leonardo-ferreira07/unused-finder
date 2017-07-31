@@ -18,10 +18,15 @@ class Finder: NSObject {
     private var swiftUrls: [URL]! = []
     private var ibUrls: [URL]! = []
     
+    private var names: [String] = []
+    private var nonUsed: [String] = []
+    
     func find(with url: URL, completion:@escaping (Found) -> Void) {
         DispatchQueue.global(qos: .background).async {
             self.swiftUrls = []
             self.ibUrls = []
+            self.names = []
+            self.nonUsed = []
             
             self.findAllFiles(with: url)
             
@@ -36,20 +41,26 @@ class Finder: NSObject {
                         if !text.contains("(") && !text.contains("@") && !text.contains(" var ") && !text.contains("//") {
                             if let filtered = text.slice(from: " ", to: ":") {
                                 print(filtered.replacingOccurrences(of: " ", with: ""))
+                                self.names.append(filtered.replacingOccurrences(of: " ", with: ""))
                             } else if text.components(separatedBy: ":").count > 0 {
                                 print(text.components(separatedBy: ":")[0].replacingOccurrences(of: " ", with: ""))
+                                self.names.append(text.components(separatedBy: ":")[0].replacingOccurrences(of: " ", with: ""))
                             } else {
                                 print(text.replacingOccurrences(of: " ", with: ""))
+                                self.names.append(text.replacingOccurrences(of: " ", with: ""))
                             }
                         }
                     } else if let text = text.slice(from: "class ", to: "{") {
                         if !text.contains("(") && !text.contains("@") && !text.contains(" var ") && !text.contains("//") {
                             if let filtered = text.slice(from: " ", to: ":") {
                                 print(filtered.replacingOccurrences(of: " ", with: ""))
+                                self.names.append(filtered.replacingOccurrences(of: " ", with: ""))
                             } else if text.components(separatedBy: ":").count > 0 {
                                 print(text.components(separatedBy: ":")[0].replacingOccurrences(of: " ", with: ""))
+                                self.names.append(text.components(separatedBy: ":")[0].replacingOccurrences(of: " ", with: ""))
                             } else {
                                 print(text.replacingOccurrences(of: " ", with: ""))
+                                self.names.append(text.replacingOccurrences(of: " ", with: ""))
                             }
                         }
                     }
@@ -63,14 +74,51 @@ class Finder: NSObject {
             print("count - \(self.ibUrls)")
             print("count - \(self.ibUrls.count)")
             
+            
             for url in self.ibUrls {
                 do {
                     let text = try String(contentsOf: url, encoding: String.Encoding.utf8)
-//                    print(text)
+                    for name in self.names.enumerated().reversed() {
+                        if !text.contains(name.element) {
+                            if !self.nonUsed.contains(name.element) {
+                                self.nonUsed.append(name.element)
+                            }
+                        } else {
+                            if let index = self.nonUsed.index(of: name.element) {
+                                self.nonUsed.remove(at: index)
+                            }
+                            self.names.remove(at: name.offset)
+                        }
+                    }
                 } catch let errOpening as NSError {
                     print("Error! ", errOpening)
                 }
             }
+            
+            
+            for url in self.swiftUrls {
+                do {
+                    let text = try String(contentsOf: url, encoding: String.Encoding.utf8)
+                    for name in self.names.enumerated().reversed() {
+                        if !url.absoluteString.contains(name.element) {
+                            if !text.contains(name.element) {
+                                if !self.nonUsed.contains(name.element) {
+                                    self.nonUsed.append(name.element)
+                                }
+                            } else {
+                                if let index = self.nonUsed.index(of: name.element) {
+                                    self.nonUsed.remove(at: index)
+                                }
+                                self.names.remove(at: name.offset)
+                            }
+                        }
+                    }
+                } catch let errorOpen as NSError {
+                    
+                }
+            }
+            
+            print(self.nonUsed)
             
             // back to main thread and stop the animation
             DispatchQueue.main.async {
@@ -116,7 +164,7 @@ extension Finder {
             if obj.element.pathExtension == "" || obj.element.pathExtension == "lproj" {
                 // call again, because it found a folder
                 self.findAllFiles(with: obj.element)
-            } else if obj.element.absoluteString.contains("Pods") {
+            } else if obj.element.absoluteString.localizedCaseInsensitiveContains("pods") || obj.element.absoluteString.localizedCaseInsensitiveContains("test") {
                 paths.remove(at: obj.offset)
             } else {
                 if obj.element.pathExtension == "swift" {
