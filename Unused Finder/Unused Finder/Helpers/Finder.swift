@@ -38,31 +38,9 @@ class Finder: NSObject {
                 do {
                     let text = try String(contentsOf: url, encoding: String.Encoding.utf8)
                     if let text = text.slice(from: "struct ", to: "{") {
-                        if !text.contains("(") && !text.contains("@") && !text.contains(" var ") && !text.contains("//") {
-                            if let filtered = text.slice(from: " ", to: ":") {
-                                print(filtered.replacingOccurrences(of: " ", with: ""))
-                                self.names.append(filtered.replacingOccurrences(of: " ", with: ""))
-                            } else if text.components(separatedBy: ":").count > 0 {
-                                print(text.components(separatedBy: ":")[0].replacingOccurrences(of: " ", with: ""))
-                                self.names.append(text.components(separatedBy: ":")[0].replacingOccurrences(of: " ", with: ""))
-                            } else {
-                                print(text.replacingOccurrences(of: " ", with: ""))
-                                self.names.append(text.replacingOccurrences(of: " ", with: ""))
-                            }
-                        }
+                        self.addName(from: text)
                     } else if let text = text.slice(from: "class ", to: "{") {
-                        if !text.contains("(") && !text.contains("@") && !text.contains(" var ") && !text.contains("//") {
-                            if let filtered = text.slice(from: " ", to: ":") {
-                                print(filtered.replacingOccurrences(of: " ", with: ""))
-                                self.names.append(filtered.replacingOccurrences(of: " ", with: ""))
-                            } else if text.components(separatedBy: ":").count > 0 {
-                                print(text.components(separatedBy: ":")[0].replacingOccurrences(of: " ", with: ""))
-                                self.names.append(text.components(separatedBy: ":")[0].replacingOccurrences(of: " ", with: ""))
-                            } else {
-                                print(text.replacingOccurrences(of: " ", with: ""))
-                                self.names.append(text.replacingOccurrences(of: " ", with: ""))
-                            }
-                        }
+                        self.addName(from: text)
                     }
 //                    print(text)
                 } catch let errOpening as NSError {
@@ -76,46 +54,11 @@ class Finder: NSObject {
             
             
             for url in self.ibUrls {
-                do {
-                    let text = try String(contentsOf: url, encoding: String.Encoding.utf8)
-                    for name in self.names.enumerated().reversed() {
-                        if !text.contains(name.element) {
-                            if !self.nonUsed.contains(name.element) {
-                                self.nonUsed.append(name.element)
-                            }
-                        } else {
-                            if let index = self.nonUsed.index(of: name.element) {
-                                self.nonUsed.remove(at: index)
-                            }
-                            self.names.remove(at: name.offset)
-                        }
-                    }
-                } catch let errOpening as NSError {
-                    print("Error! ", errOpening)
-                }
+                self.findNonUsed(withFile: url)
             }
             
-            
             for url in self.swiftUrls {
-                do {
-                    let text = try String(contentsOf: url, encoding: String.Encoding.utf8)
-                    for name in self.names.enumerated().reversed() {
-                        if !url.absoluteString.contains(name.element) {
-                            if !text.contains(name.element) {
-                                if !self.nonUsed.contains(name.element) {
-                                    self.nonUsed.append(name.element)
-                                }
-                            } else {
-                                if let index = self.nonUsed.index(of: name.element) {
-                                    self.nonUsed.remove(at: index)
-                                }
-                                self.names.remove(at: name.offset)
-                            }
-                        }
-                    }
-                } catch let errorOpen as NSError {
-                    
-                }
+                self.findNonUsed(withFile: url)
             }
             
             print(self.nonUsed)
@@ -140,7 +83,7 @@ extension Finder {
         let fileManager = FileManager.default
         
         do {
-            let contents = try fileManager.contentsOfDirectory(atPath: folder.path)
+//            let contents = try fileManager.contentsOfDirectory(atPath: folder.path)
             
             let directoryContents = try fileManager.contentsOfDirectory(at: folder, includingPropertiesForKeys: nil, options: [])
             print(directoryContents)
@@ -179,6 +122,52 @@ extension Finder {
         }
         
     }
+}
+
+// MARK:- Helpers
+
+extension Finder {
+    private func textIsValid(_ text: String) -> Bool {
+        if !text.contains("(") && !text.contains("@") && !text.contains(" var ") && !text.contains("//") {
+            return true
+        }
+        return false
+    }
     
+    private func addName(from text: String) {
+        if textIsValid(text) {
+            if let filtered = text.slice(from: " ", to: ":") {
+                print(filtered.replacingOccurrences(of: " ", with: ""))
+                self.names.append(filtered.replacingOccurrences(of: " ", with: ""))
+            } else if text.components(separatedBy: ":").count > 0 {
+                print(text.components(separatedBy: ":")[0].replacingOccurrences(of: " ", with: ""))
+                self.names.append(text.components(separatedBy: ":")[0].replacingOccurrences(of: " ", with: ""))
+            } else {
+                print(text.replacingOccurrences(of: " ", with: ""))
+                self.names.append(text.replacingOccurrences(of: " ", with: ""))
+            }
+        }
+    }
     
+    private func findNonUsed(withFile url: URL) {
+        do {
+            let text = try String(contentsOf: url, encoding: String.Encoding.utf8)
+            for name in self.names.enumerated().reversed() {
+                if !url.absoluteString.contains(name.element) {
+                    if !text.contains(name.element) {
+                        if !self.nonUsed.contains(name.element) {
+                            self.nonUsed.append(name.element)
+                        }
+                    } else {
+                        if let index = self.nonUsed.index(of: name.element) {
+                            self.nonUsed.remove(at: index)
+                        }
+                        self.names.remove(at: name.offset)
+                    }
+                }
+            }
+        } catch let errorOpen as NSError {
+            
+        }
+    }
 }
