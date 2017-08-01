@@ -112,8 +112,8 @@ extension Finder {
             } else {
                 if obj.element.pathExtension == "swift" {
                     swiftUrls.append(obj.element)
-                } else if obj.element.pathExtension == "xib" || obj.element.pathExtension == "storyboard" {
-                    // search for interface builder files
+                } else if obj.element.pathExtension == "xib" || obj.element.pathExtension == "storyboard" || obj.element.pathExtension == "plist" {
+                    // search for resource files
                     ibUrls.append(obj.element)
                 }
                 paths.remove(at: obj.offset)
